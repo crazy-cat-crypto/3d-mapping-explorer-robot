@@ -227,12 +227,5 @@ No artificial intelligence. No machine learning. Just simple persistence.
 
 ---
 
-## NEXT STEPS
 
-1. Visit: https://github.com/giomalt/explorino
-2. Read the README
-3. Look at `explorino.ino` file
-4. You'll see the 6 algorithms running in sequence
-
-**That's your robot.**
 
