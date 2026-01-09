@@ -1,4 +1,4 @@
-# 🤖 2.5D AUTONOMOUS EXPLORATION ROBOT 
+# 2.5D AUTONOMOUS EXPLORATION ROBOT 
 
 ---
 
@@ -45,7 +45,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 ---
 
-### **2 SENSOR GEOMETRY** | 
+### **2 SENSOR GEOMETRY**
 **What:** Converts HC-SR04 distance + servo angle into 3D robot coordinates using trigonometry.
 
 **Why Important:** Sensor provides distance (scalar), but robot needs to know WHERE obstacles are (vector). This calculates position relative to robot frame.
@@ -63,10 +63,10 @@ z = sensor_height            // Vertical component
 
 ---
 
-### **3 OBSTACLE AVOIDANCE**
-**What:** Reactive collision prevention—if distance < 20cm, stop and turn away.
+### **3 OBSTACLE AVOIDANCE AND PATH FINDING**
+**What:** Reactive collision prevention—if distance < 20cm, stop and turn away. and try to move to a point as specified by frontier algorithm.
 
-**Why Important:** Safety mechanism. Robot doesn't crash while exploring.
+**Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
 
 **Implementation:** idk
 
@@ -84,8 +84,8 @@ if (HC-SR04_distance < 20cm) {
 
 ---
 
-### **4 OCCUPANCY GRID MAPPING**
-**What:** Converts robot trajectory + sensor readings into grid map (0=empty, 1=obstacle).  ( 2D OR 3D ????)
+### **4 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
+**What:** Converts robot trajectory + sensor readings into 3D grid map (0=empty, 1=obstacle). 
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
 
@@ -104,8 +104,8 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **5 FRONTIER EXPLORATION** | 
-**What:** Identifies unexplored edges in occupancy grid and picks next exploration target.
+### **5 FRONTIER EXPLORATION (PYTHON)** | 
+**What:** Identifies unexplored edges in occupancy grid and picks next exploration target and commands arduino to go there.
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
 
@@ -120,7 +120,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **6 SLAM LOOP CLOSURE**
+### **6 SLAM LOOP CLOSURE (PYTHON)**
 **What:** Detects when robot returns to previously visited area and corrects accumulated position drift.
 
 **Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
@@ -135,7 +135,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **7 SERIAL INTERFACE**
+### **7 SERIAL INTERFACE (PYTHON, ARDUINO)**
 **What:** Bidirectional Arduino ↔ Windows communication.
 
 **Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
