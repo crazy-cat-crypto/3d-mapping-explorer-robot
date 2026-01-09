@@ -1,12 +1,9 @@
-# Algorithm Best Repositories
-
-## Algorithm Implementations for Robotics & Mapping
-
-| # | Algorithm | Best Repository | One-Line Explanation |
-|---|-----------|-----------------|----------------------|
-| 1 | Motor Control with Voltage Compensation | ArminJo/PWMMotorControl | Arduino library for L298N motors with PWM speed adjustment, encoder support, and 2-motor car control (already attached). |
-| 2 | Obstacle Avoidance (Ultrasonic) | stheophil/MappingRover | Arduino + C++ Windows controller: reads HC-SR04 sonar, detects obstacles, sends movement commands back to Arduino via Bluetooth. |
-| 3 | Odometry (Encoder Tracking) | lucimobility/encoder-to-odom-library | C++ library converts differential-drive encoder pulses into accurate position, velocity, and distance (Windows-compatible). |
-| 4 | Occupancy Grid Mapping | farzingkh/Occupancy-Grid-Mapping | C++ Windows app: takes Arduino odometry + ultrasonic data, builds 2D occupancy grid with visualization. |
-| 5 | Frontier Exploration | stheophil/MappingRover(robot_controller.cpp) | Same repo: implements edge-following strategy to explore all unmapped borders in occupancy grid. |
-| 6 | SLAM Loop Closure | stheophil/MappingRover(robot_controller.cpp) | Matches occupancy grid snapshots; detects when robot revisits location by comparing sonar patterns. |
+|#    |Algorithm                      |Device             |GitHub/Website                                                                             |Intuition                                                                                            |
+|-----|-------------------------------|-------------------|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+|1    |Odometry + Voltage Compensation|Arduino            |https://github.com/ArminJo/PWMMotorControl                                                 |Measures motor rotation time, adjusts for battery voltage so your distance calculation stays accurate|
+|2    |Sensor Geometry                |Arduino            |https://www.instructables.com/Ultrasound-Sensor-2D-Tracking-With-Arduino/                  |Converts HC-SR04 distance + servo angle into (x,y,z) robot coordinates using trigonometry            |
+|3    |Obstacle Avoidance             |Arduino            |https://github.com/JanithDisanayake/Arduino-Robot                                          |If HC-SR04 detects something <20cm away, immediately stop and turn toward clearer direction          |
+|4    |Occupancy Grid Mapping         |Windows C++        |https://github.com/omerhalid/occupancy_grid_mobile_robot_cpp                               |Builds 2D checkerboard map (10cm squares) showing which areas have obstacles vs empty space          |
+|5    |Frontier Exploration           |Windows C++        |https://github.com/HanwenCao/Frontier_Exploration                                          |Finds edges between explored/unexplored areas and picks nearest frontier as next exploration target  |
+|6    |SLAM Loop Closure              |Windows C++        |https://github.com/manonkok/1d-magnetic-field-slam/                                        |Detects when robot returns to previously visited area and fixes accumulated position drift errors    |
+|BONUS|Serial Interface               |Arduino ↔ Windows  |https://www.allaboutcircuits.com/technical-articles/csharp-windows-application-for-arduino/|Transfers sensor data from Arduino to Windows at 115200 baud for processing                          |
