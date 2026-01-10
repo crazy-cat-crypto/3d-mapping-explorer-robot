@@ -68,7 +68,7 @@ z = sensor_height            // Vertical component
 
 **Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
 
-**Implementation:** idk
+**Implementation:** https://www.instructables.com/Arduino-Powered-Autonomous-Vehicle/ 
 
 **Logic:** 
 ```
