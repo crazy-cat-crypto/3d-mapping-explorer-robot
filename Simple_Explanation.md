@@ -39,7 +39,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 **Why Important:** As 18650 batteries discharge (3.7V → 3.0V), motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
 
-**Implementation:** idk
+**Implementation:** https://github.com/ArminJo/PWMMotorControl/blob/master/src/CarPWMMotorControl.hpp -> ``setSpeedPWMCompensation``
 
 **Expected Accuracy:** idk
 
