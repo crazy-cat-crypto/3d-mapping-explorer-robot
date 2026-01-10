@@ -82,7 +82,7 @@ z = sensor_height            // Vertical component
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
 
-**Implementation:** idk
+**Implementation:** https://github.com/AtsushiSakai/PythonRobotics/blob/master/Mapping/lidar_to_grid_map/lidar_to_grid_map.py
 
 **Input:** CSV file (robot_data.csv)
 ```
