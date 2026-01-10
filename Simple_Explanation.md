@@ -33,7 +33,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 **Input:** From arduino takes how many signals for much much time did each wheels get?
 
-**Processing:** Calculates (x,y) position of the robot considerating in how much speed and time did each wheels moved.
+**Processing:** Calculates (x,y) position of the robot considerating for how much speed and time did each wheels moved.
 
 **Output:** To SENSOR GEOMETRY
 
