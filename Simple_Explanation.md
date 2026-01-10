@@ -16,7 +16,7 @@ A fully autonomous mobile robot that maps unknown environments, identifies explo
 - **HC-SR04 Ultrasonic Sensor** (distance measurement, 10 Hz)
 - **2× SG90 Servo Motors** (sensor scanning, 180° range)
 - **2× 18650 Batteries** (3.7V, voltage-compensated)
-- **NodeMCU ESP8266** (optional WiFi)
+- **NodeMCU ESP8266** (WiFi)
 - **Windows PC** (map processing, SLAM correction)
 
 ### **Data Flow**
@@ -85,6 +85,9 @@ if (HC-SR04_distance < 20cm) {
 ---
 
 ### **4 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
+
+**Note:** Python - Plotly, will be used for final interactive representation
+
 **What:** Converts robot trajectory + sensor readings into 3D grid map (0=empty, 1=obstacle). 
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
