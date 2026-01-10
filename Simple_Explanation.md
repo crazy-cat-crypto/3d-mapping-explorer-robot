@@ -101,6 +101,7 @@ timestamp, x, y, heading, distance, servo_angle
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
 
 **Implementation:** idk
+
 **Algorithm:**
 1. Find cells touching both explored and unexplored areas
 2. Group nearby frontier cells
