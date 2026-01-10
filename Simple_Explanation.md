@@ -113,7 +113,7 @@ Windows → Arduino: "10.5,8.2"                 (frontier goal)
 
 **Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
 
-**Implementation:** idk
+**Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
 
 **Input:** Robot trajectory (x,y over time) + occupancy grid snapshots
 
@@ -146,7 +146,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
 
-**Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
+**Implementation:** idk
 
 **Algorithm:**
 1. Find cells touching both explored and unexplored areas
