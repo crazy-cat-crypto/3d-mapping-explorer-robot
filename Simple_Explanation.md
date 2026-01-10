@@ -117,8 +117,6 @@ Windows → Arduino: "10.5,8.2"                 (frontier goal)
 
 **Input:** Robot trajectory (x,y over time) + occupancy grid snapshots
 
-**Output:** Corrected trajectory with drift removed
-
 ---
 ### **6 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
 
