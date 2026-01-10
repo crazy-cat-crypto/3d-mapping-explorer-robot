@@ -70,16 +70,6 @@ z = sensor_height            // Vertical component
 
 **Implementation:** https://www.instructables.com/Arduino-Powered-Autonomous-Vehicle/ 
 
-**Logic:** 
-```
-if (HC-SR04_distance < 20cm) {
-  stop motors
-  scan servo left/right
-  find max distance direction
-  execute turn + move
-}
-```
-
 **Behavior:** Proven obstacle avoidance on Arduino Uno with L298N.
 
 ---
