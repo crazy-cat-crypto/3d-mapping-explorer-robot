@@ -95,7 +95,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **5 FRONTIER EXPLORATION (PYTHON)** | 
+### **5 FRONTIER EXPLORATION (PYTHON)**
 **What:** Identifies unexplored edges in occupancy grid and picks next exploration target and commands arduino to go there.
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
