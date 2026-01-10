@@ -57,7 +57,7 @@ z = sensor_height            // Vertical component
 ---
 
 ### **3 OBSTACLE AVOIDANCE AND PATH FINDING (Arduino)**
-**What:** Reactive collision prevention—if distance < 20cm, stop and turn away. and try to move to a point as specified by frontier algorithm.
+**What:** Reactive collision prevention—if distance < 20cm, stop and turn away. and try to move to a point as specified by frontier exploration algorithm.
 
 **Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
 
