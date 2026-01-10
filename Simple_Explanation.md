@@ -31,7 +31,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 ### **1 ODOMETRY + VOLTAGE COMPENSATION (Arduino)**
 **What:** Measures distance traveled using motor PWM timing with automatic battery voltage compensation.
 
-**Input:** From arduino takes how many signals for much much time did each wheels get?
+**Input:** From arduino takes how many signals for much much time did each wheels get?, whats the battery power at that time?
 
 **Processing:** Calculates (x,y) position of the robot considerating for how much speed and time did each wheels moved.
 
