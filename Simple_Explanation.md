@@ -77,68 +77,7 @@ z = sensor_height            // Vertical component
 **Implementation:** https://www.instructables.com/Arduino-Powered-Autonomous-Vehicle/ **(NOTE: It doesnot create 3D model)**
 
 ---
-
-### **4 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
-
-**Note:** Python - Plotly, will be used for final interactive 3D representation taking direct input from serial interface.
-
-**What:** Converts SLAM LOOP CLOSURE output into 2D grid map ignoring Z axis then sends the map to FRONTIER EXPLORATION.(0=empty, 1=obstacle). 
-
-**Why Important:** Creates visual representation of explored environment. Enables planning.
-
-**Implementation:** https://github.com/AtsushiSakai/PythonRobotics/blob/master/Mapping/lidar_to_grid_map/lidar_to_grid_map.py **(NOTE: It supposes lidar as input)**
-
-**Input:** CSV file (robot_data.csv)
-```
-timestamp, x, y, heading, distance, servo_angle
-0.0,       0, 0, 0,       50,       45
-0.1,       1, 0, 0,       48,       45
-```
-
-**Output:** `occupancy_grid.csv` + `visu.py` visualization
-
----
-
-### **5 FRONTIER EXPLORATION (PYTHON)**
-**What:** Identifies unexplored edges in occupancy grid created and picks next exploration target and commands arduino to go there via SERIAL INTERFACE.
-
-**Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
-
-**Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
-
-**Algorithm:**
-1. Find cells touching both explored and unexplored areas
-2. Group nearby frontier cells
-3. Score each cluster: `priority = 1/distance + information_gain`
-4. Return highest-scoring frontier
-
-**Result:** Autonomous target selection without manual intervention.
-
----
-
-### **6 SLAM LOOP CLOSURE (PYTHON)**
-
-**What:** Step where the robot recognizes it has returned to a previously visited place and adjusts its entire estimated path to remove accumulated drift.
-
-**Input:** From File made by SERIAL INTERFACE i.e Robot trajectory (x,y over time) + occupancy grid snapshots
-
-**Processing:** Detects if robot returns to previously visited area Then corrects accumulated position drift.
-
-**Output:** Corrected trajectory with drift removed or if previous position is not detected forwards the File received from SERIAL INTERFACE to OCCUPANCY GRID MAPPING.
-
-**Example:** Robot thinks it's at (5.2, 4.8) but grid matches past scan at (5.0, 5.0) → corrects entire history.
-
-**Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
-
-**Implementation:** idk
-
-**Input:** Robot trajectory (x,y over time) + occupancy grid snapshots
-
-**Output:** Corrected trajectory with drift removed
-
----
-
-### **7 SERIAL INTERFACE (Arduino - Wifi <-> Python - Flask)**
+### **4 SERIAL INTERFACE (Arduino - Wifi <-> Python - Flask)**
 
 **What:** Bidirectional Arduino ↔ Windows communication.
 
@@ -159,5 +98,66 @@ timestamp, x, y, heading, distance, servo_angle
 Arduino → Windows: "0.5,1.2,2.1,0.5,50,45"   (sensor reading)
 Windows → Arduino: "10.5,8.2"                 (frontier goal)
 ```
+---
+### **5 SLAM LOOP CLOSURE (PYTHON)**
+
+**What:** Step where the robot recognizes it has returned to a previously visited place and adjusts its entire estimated path to remove accumulated drift.
+
+**Input:** From File made by SERIAL INTERFACE i.e Robot trajectory (x,y over time) + occupancy grid snapshots
+
+**Processing:** Detects if robot returns to previously visited area Then corrects accumulated position drift.
+
+**Output:** Corrected trajectory with drift removed or if previous position is not detected forwards the File received from SERIAL INTERFACE to OCCUPANCY GRID MAPPING.
+
+**Example:** Robot thinks it's at (5.2, 4.8) but grid matches past scan at (5.0, 5.0) → corrects entire history.
+
+**Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
+
+**Implementation:** idk
+
+**Input:** Robot trajectory (x,y over time) + occupancy grid snapshots
+
+**Output:** Corrected trajectory with drift removed
 
 ---
+### **6 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
+
+**Note:** Python - Plotly, will be used for final interactive 3D representation taking direct input from serial interface.
+
+**What:** Converts SLAM LOOP CLOSURE output into 2D grid map ignoring Z axis then sends the map to FRONTIER EXPLORATION.(0=empty, 1=obstacle). 
+
+**Why Important:** Creates visual representation of explored environment. Enables planning.
+
+**Implementation:** https://github.com/AtsushiSakai/PythonRobotics/blob/master/Mapping/lidar_to_grid_map/lidar_to_grid_map.py **(NOTE: It supposes lidar as input)**
+
+**Input:** CSV file (robot_data.csv)
+```
+timestamp, x, y, heading, distance, servo_angle
+0.0,       0, 0, 0,       50,       45
+0.1,       1, 0, 0,       48,       45
+```
+
+**Output:** `occupancy_grid.csv` + `visu.py` visualization
+
+---
+
+### **7 FRONTIER EXPLORATION (PYTHON)**
+**What:** Identifies unexplored edges in occupancy grid created and picks next exploration target and commands arduino to go there via SERIAL INTERFACE.
+
+**Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
+
+**Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
+
+**Algorithm:**
+1. Find cells touching both explored and unexplored areas
+2. Group nearby frontier cells
+3. Score each cluster: `priority = 1/distance + information_gain`
+4. Return highest-scoring frontier
+
+**Result:** Autonomous target selection without manual intervention.
+
+---
+
+
+
+
