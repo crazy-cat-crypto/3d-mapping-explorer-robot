@@ -2,12 +2,6 @@
 
 ---
 
-## **EXECUTIVE SUMMARY**
-
-A fully autonomous mobile robot that maps unknown environments, identifies exploration targets, and corrects navigation drift using 7 core robotics algorithms integrated across Arduino and Windows platforms. Uses trigonometry, sensor fusion, occupancy grids, frontier detection, and SLAM loop closure for complete autonomy.
-
----
-
 ## **SYSTEM ARCHITECTURE**
 
 ### **Hardware**
