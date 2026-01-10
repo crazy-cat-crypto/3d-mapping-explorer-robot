@@ -37,7 +37,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 ### **1 ODOMETRY + VOLTAGE COMPENSATION**
 **What:** Measures distance traveled using motor PWM timing with automatic battery voltage compensation.
 
-**Why Important:** As 18650 batteries discharge (3.7V → 3.0V), motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
+**Why Important:** As 18650 batteries discharge, motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
 
 **Implementation:** https://github.com/ArminJo/PWMMotorControl/blob/master/src/CarPWMMotorControl.hpp -> ``setSpeedPWMCompensation``
 
