@@ -54,8 +54,6 @@ y = distance × sin(angle)    // Forward component
 z = sensor_height            // Vertical component
 ```
 
-**Real-World Use:** Enables sensor fusion for accurate obstacle mapping.
-
 ---
 
 ### **3 OBSTACLE AVOIDANCE AND PATH FINDING (Arduino)**
@@ -64,8 +62,6 @@ z = sensor_height            // Vertical component
 **Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
 
 **Implementation:** https://www.instructables.com/Arduino-Powered-Autonomous-Vehicle/ 
-
-**Behavior:** Proven obstacle avoidance on Arduino Uno with L298N.
 
 ---
 
