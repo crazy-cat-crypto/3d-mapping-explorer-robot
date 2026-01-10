@@ -32,7 +32,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 ---
 
-## ** ALGORITHMS IMPLEMENTED**
+## ** ALGORITHMS IMPLEMENTED **
 
 ### **1 ODOMETRY + VOLTAGE COMPENSATION**
 **What:** Measures distance traveled using motor PWM timing with automatic battery voltage compensation.
