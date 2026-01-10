@@ -27,7 +27,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 ├─ Sensor geometry ②            ├─ Find frontiers ⑤
 ├─ Obstacle avoidance ③         ├─ SLAM correction ⑥
 ├─ Format + serialize ⑦         └─ Send waypoint back via serial ⑦
-└─ 100 Hz loop          ↔ USB at 115200 baud ↔       10 Hz loop
+└─ 100 Hz loop          ↔ WiFi ↔       10 Hz loop
 ```
 
 ---
@@ -100,8 +100,6 @@ timestamp, x, y, heading, distance, servo_angle
 
 **Output:** `occupancy_grid.csv` + `visu.py` visualization
 
-**Technology:** C++ sensor fusion with 10cm grid cells.
-
 ---
 
 ### **5 FRONTIER EXPLORATION (PYTHON)** | 
@@ -135,7 +133,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **7 SERIAL INTERFACE (PYTHON - Flask, ARDUINO)**
+### **7 SERIAL INTERFACE (Arduino - Wifi -> Python - Flask)**
 **What:** Bidirectional Arduino ↔ Windows communication.
 
 **Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
