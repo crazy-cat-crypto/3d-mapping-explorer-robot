@@ -35,7 +35,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 **Implementation:** https://github.com/ArminJo/PWMMotorControl/blob/master/src/CarPWMMotorControl.hpp -> ``setSpeedPWMCompensation``
 
-**Expected Accuracy:** idk
+**Expected Accuracy:** low without wheels encoders
 
 ---
 
