@@ -34,7 +34,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 ## ** ALGORITHMS IMPLEMENTED **
 
-### **1 ODOMETRY + VOLTAGE COMPENSATION**
+### **1 ODOMETRY + VOLTAGE COMPENSATION (Arduino)**
 **What:** Measures distance traveled using motor PWM timing with automatic battery voltage compensation.
 
 **Why Important:** As 18650 batteries discharge, motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
@@ -45,7 +45,7 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 
 ---
 
-### **2 SENSOR GEOMETRY**
+### **2 SENSOR GEOMETRY (Arduino)**
 **What:** Converts HC-SR04 distance + servo angle into 3D robot coordinates using trigonometry.
 
 **Why Important:** Sensor provides distance (scalar), but robot needs to know WHERE obstacles are (vector). This calculates position relative to robot frame.
@@ -63,7 +63,7 @@ z = sensor_height            // Vertical component
 
 ---
 
-### **3 OBSTACLE AVOIDANCE AND PATH FINDING**
+### **3 OBSTACLE AVOIDANCE AND PATH FINDING (Arduino)**
 **What:** Reactive collision prevention—if distance < 20cm, stop and turn away. and try to move to a point as specified by frontier algorithm.
 
 **Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
