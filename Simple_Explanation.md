@@ -51,7 +51,8 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 **Why Important:** Sensor provides distance (scalar), but robot needs to know WHERE obstacles are (vector). This calculates position relative to robot frame.
 
 **Implementation:** https://gist.github.com/PCJohn/fa94b020d8710cabe29c
-                    https://www.dropbox.com/scl/fi/dfkr6ksiiiqni8ukxzioq/3D_SCANNER.pdf?rlkey=dpddjdihd21prl44juvf1fm0o&e=1&dl=0  (**NOTE**: They donot move)
+                    https://www.dropbox.com/scl/fi/dfkr6ksiiiqni8ukxzioq/3D_SCANNER.pdf?rlkey=dpddjdihd21prl44juvf1fm0o&e=1&dl=0  
+                    **NOTE: They donot move**
 
 **Formula:**
 ```
