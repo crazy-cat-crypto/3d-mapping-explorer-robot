@@ -83,9 +83,9 @@ z = sensor_height            // Vertical component
 
 **Input:** From SENSOR GEOMETRY
 
-**Processing:** Takes value from arduino`s wifi module and converts it to a file.
+**Processing:** Takes hundreds of (x,y,z) value from arduino`s wifi module and converts it to a file.
 
-**Output:** The file is accessed to SLAM.
+**Output:** The file is accessed by SLAM.
 
 **Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
 
@@ -105,7 +105,7 @@ Windows → Arduino: "10.5,8.2"                 (frontier goal)
 
 **Input:** From File made by SERIAL INTERFACE i.e Robot trajectory (x,y over time) + occupancy grid snapshots
 
-**Processing:** Detects if robot returns to previously visited area Then corrects accumulated position drift.
+**Processing:** Detects if robot has returned to previously visited area Then corrects accumulated position drift.
 
 **Output:** Corrected trajectory with drift removed or if previous position is not detected forwards the File received from SERIAL INTERFACE to OCCUPANCY GRID MAPPING.
 
@@ -124,7 +124,7 @@ Windows → Arduino: "10.5,8.2"                 (frontier goal)
 
 **Note:** Python - Plotly, will be used for final interactive 3D representation taking direct input from serial interface.
 
-**What:** Converts SLAM LOOP CLOSURE output into 2D grid map ignoring Z axis then sends the map to FRONTIER EXPLORATION.(0=empty, 1=obstacle). 
+**What:** Converts SLAM LOOP CLOSURE output into 2D grid map(ignoring Z axis) then sends the map to FRONTIER EXPLORATION.(0=empty, 1=obstacle). 
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
 
