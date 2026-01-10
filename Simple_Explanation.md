@@ -67,9 +67,9 @@ z = sensor_height            // Vertical component
 
 ### **4 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
 
-**Note:** Python - Plotly, will be used for final interactive representation
+**Note:** Python - Plotly, will be used for final interactive 3D representation taking direct input from serial interface.
 
-**What:** Converts robot trajectory + sensor readings into 3D grid map (0=empty, 1=obstacle). 
+**What:** Converts robot trajectory + sensor readings in the horizontal plane only into 2D grid map (0=empty, 1=obstacle). 
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
 
@@ -87,7 +87,7 @@ timestamp, x, y, heading, distance, servo_angle
 ---
 
 ### **5 FRONTIER EXPLORATION (PYTHON)**
-**What:** Identifies unexplored edges in occupancy grid and picks next exploration target and commands arduino to go there.
+**What:** Identifies unexplored edges in occupancy grid created and picks next exploration target and commands arduino to go there.
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
 
