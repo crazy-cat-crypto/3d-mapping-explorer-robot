@@ -135,7 +135,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **7 SERIAL INTERFACE (PYTHON, ARDUINO)**
+### **7 SERIAL INTERFACE (PYTHON - Flask, ARDUINO)**
 **What:** Bidirectional Arduino ↔ Windows communication.
 
 **Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
