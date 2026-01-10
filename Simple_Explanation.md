@@ -131,7 +131,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 **Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
 
-**Implementation:** idk
+**Implementation:** https://techtutorialsx.com/2017/01/08/esp8266-posting-json-data-to-a-flask-server-on-the-cloud/
 
 **Format:** CSV lines (simple, robust, human-readable)
 
