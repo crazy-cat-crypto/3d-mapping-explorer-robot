@@ -40,6 +40,13 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 ---
 
 ### **2 SENSOR GEOMETRY (Arduino)**
+
+**Input:** From ODOMETRY + Ultrasonic sensor
+
+**Processing:** Uses trignometry to turn an object postion to (x,y,z)
+
+**Output:** From wifi module transfers (x,y,z) to SERIAL INTERFACE
+
 **What:** Converts HC-SR04 distance + servo angle into 3D robot coordinates using trigonometry.
 
 **Why Important:** Sensor provides distance (scalar), but robot needs to know WHERE obstacles are (vector). This calculates position relative to robot frame.
@@ -69,7 +76,7 @@ z = sensor_height            // Vertical component
 
 **Note:** Python - Plotly, will be used for final interactive 3D representation taking direct input from serial interface.
 
-**What:** Converts robot trajectory + sensor readings in the horizontal plane only into 2D grid map (0=empty, 1=obstacle). 
+**What:** Converts SLAM LOOP CLOSURE output into 2D grid map ignoring Z axis.(0=empty, 1=obstacle). 
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
 
@@ -91,7 +98,7 @@ timestamp, x, y, heading, distance, servo_angle
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
 
-**Implementation:** idk
+**Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
 
 **Algorithm:**
 1. Find cells touching both explored and unexplored areas
@@ -104,7 +111,7 @@ timestamp, x, y, heading, distance, servo_angle
 ---
 
 ### **6 SLAM LOOP CLOSURE (PYTHON)**
-**What:** Detects when robot returns to previously visited area and corrects accumulated position drift.
+**What:** Detects if robot returns to previously visited area Then corrects accumulated position drift, Next it returns whatever input its gets from SERIAL INTERFACE.
 
 **Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
 
