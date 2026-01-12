@@ -115,8 +115,6 @@ Windows → Arduino: "10.5,8.2"                 (frontier goal)
 
 **Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
 
-**Input:** Robot trajectory (x,y over time) + occupancy grid snapshots
-
 ---
 ### **6 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
 
