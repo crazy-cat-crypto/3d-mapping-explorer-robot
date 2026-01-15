@@ -1,10 +1,4 @@
-# 🤖 2.5D AUTONOMOUS EXPLORATION ROBOT 
-
----
-
-## **EXECUTIVE SUMMARY**
-
-A fully autonomous mobile robot that maps unknown environments, identifies exploration targets, and corrects navigation drift using 7 core robotics algorithms integrated across Arduino and Windows platforms. Uses trigonometry, sensor fusion, occupancy grids, frontier detection, and SLAM loop closure for complete autonomy.
+# 3D AUTONOMOUS EXPLORATION ROBOT 
 
 ---
 
@@ -16,7 +10,7 @@ A fully autonomous mobile robot that maps unknown environments, identifies explo
 - **HC-SR04 Ultrasonic Sensor** (distance measurement, 10 Hz)
 - **2× SG90 Servo Motors** (sensor scanning, 180° range)
 - **2× 18650 Batteries** (3.7V, voltage-compensated)
-- **NodeMCU ESP8266** (optional WiFi)
+- **NodeMCU ESP8266** (WiFi)
 - **Windows PC** (map processing, SLAM correction)
 
 ### **Data Flow**
@@ -27,30 +21,44 @@ ARDUINO (Real-time)              WINDOWS (Processing)
 ├─ Sensor geometry ②            ├─ Find frontiers ⑤
 ├─ Obstacle avoidance ③         ├─ SLAM correction ⑥
 ├─ Format + serialize ⑦         └─ Send waypoint back via serial ⑦
-└─ 100 Hz loop          ↔ USB at 115200 baud ↔       10 Hz loop
+└─ 100 Hz loop          ↔ WiFi ↔       10 Hz loop
 ```
 
 ---
 
-## ** ALGORITHMS IMPLEMENTED**
+## ** ALGORITHMS IMPLEMENTED **
 
-### **1 ODOMETRY + VOLTAGE COMPENSATION**
+### **1 ODOMETRY + VOLTAGE COMPENSATION (Arduino)**
 **What:** Measures distance traveled using motor PWM timing with automatic battery voltage compensation.
 
-**Why Important:** As 18650 batteries discharge (3.7V → 3.0V), motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
+**Input:** From arduino takes how many signals for much much time did each wheels get?, whats the battery power at that time?
 
-**Implementation:** idk
+**Processing:** Calculates (x,y) position of the robot considerating for how much speed and time did each wheels moved considerating the battery power for each case.
 
-**Expected Accuracy:** idk
+**Output:** To SENSOR GEOMETRY
+
+**Why Important:** As 18650 batteries discharge, motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
+
+**Implementation:** https://github.com/ArminJo/PWMMotorControl/blob/master/src/CarPWMMotorControl.hpp -> ``setSpeedPWMCompensation()``
+
+**Expected Accuracy:** low without wheels encoders
 
 ---
 
-### **2 SENSOR GEOMETRY** | 
+### **2 SENSOR GEOMETRY (Arduino)**
+
 **What:** Converts HC-SR04 distance + servo angle into 3D robot coordinates using trigonometry.
+
+**Input:** From ODOMETRY + Ultrasonic sensor
+
+**Processing:** Uses trignometry to turn an object postion to (x,y,z)
+
+**Output:** From wifi module transfers (x,y,z) to SERIAL INTERFACE
 
 **Why Important:** Sensor provides distance (scalar), but robot needs to know WHERE obstacles are (vector). This calculates position relative to robot frame.
 
-**Implementation:** idk
+**Implementation:** https://gist.github.com/PCJohn/fa94b020d8710cabe29c
+                    https://www.dropbox.com/scl/fi/dfkr6ksiiiqni8ukxzioq/3D_SCANNER.pdf?rlkey=dpddjdihd21prl44juvf1fm0o&e=1&dl=0  **(NOTE: They donot move)**
 
 **Formula:**
 ```
@@ -59,37 +67,64 @@ y = distance × sin(angle)    // Forward component
 z = sensor_height            // Vertical component
 ```
 
-**Real-World Use:** Enables sensor fusion for accurate obstacle mapping.
-
 ---
 
-### **3 OBSTACLE AVOIDANCE**
-**What:** Reactive collision prevention—if distance < 20cm, stop and turn away.
+### **3 OBSTACLE AVOIDANCE AND PATH FINDING (Arduino)**
+**What:** Reactive collision prevention—if distance < 20cm, stop and turn away and while trying to move to a point as specified by frontier exploration algorithm.
 
-**Why Important:** Safety mechanism. Robot doesn't crash while exploring.
+**Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
 
-**Implementation:** idk
-
-**Logic:** 
-```
-if (HC-SR04_distance < 20cm) {
-  stop motors
-  scan servo left/right
-  find max distance direction
-  execute turn + move
-}
-```
-
-**Behavior:** Proven obstacle avoidance on Arduino Uno with L298N.
+**Implementation:** https://www.instructables.com/Arduino-Powered-Autonomous-Vehicle/ **(NOTE: It doesnot create 3D model)**
 
 ---
+### **4 SERIAL INTERFACE (Arduino - Wifi <-> Python - Flask)**
 
-### **4 OCCUPANCY GRID MAPPING**
-**What:** Converts robot trajectory + sensor readings into grid map (0=empty, 1=obstacle).  ( 2D OR 3D ????)
+**What:** Bidirectional Arduino ↔ Windows communication.
+
+**Input:** From SENSOR GEOMETRY
+
+**Processing:** Takes hundreds of (x,y,z) value from arduino`s wifi module and converts it to a file.
+
+**Output:** The file is accessed by SLAM.
+
+**Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
+
+**Implementation:** https://techtutorialsx.com/2017/01/08/esp8266-posting-json-data-to-a-flask-server-on-the-cloud/
+
+**Format:** CSV lines (simple, robust, human-readable)
+
+**Example Flow:**
+```
+Arduino → Windows: "0.5,1.2,2.1,0.5,50,45"   (sensor reading)
+Windows → Arduino: "10.5,8.2"                 (frontier goal)
+```
+---
+### **5 SLAM LOOP CLOSURE (PYTHON)**
+
+**What:** Step where the robot recognizes it has returned to a previously visited place and adjusts its entire estimated path to remove accumulated drift.
+
+**Input:** From File made by SERIAL INTERFACE i.e Robot trajectory (x,y over time) + occupancy grid snapshots
+
+**Processing:** Detects if robot has returned to previously visited area Then corrects accumulated position drift.
+
+**Output:** Corrected trajectory with drift removed or if previous position is not detected forwards the File received from SERIAL INTERFACE to OCCUPANCY GRID MAPPING.
+
+**Example:** Robot thinks it's at (5.2, 4.8) but grid matches past scan at (5.0, 5.0) → corrects entire history.
+
+**Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
+
+**Implementation:** https://github.com/simondlevy/BreezySLAM/blob/master/python/breezyslam/algorithms.py
+
+---
+### **6 OCCUPANCY GRID MAPPING (PYTHON - Numpy, Matplotlib)**
+
+**Note:** Python - Plotly, will be used for final interactive 3D representation taking direct input from serial interface.
+
+**What:** Converts SLAM LOOP CLOSURE output into 2D grid map(ignoring Z axis) then sends the map to FRONTIER EXPLORATION.(0=empty, 1=obstacle). 
 
 **Why Important:** Creates visual representation of explored environment. Enables planning.
 
-**Implementation:** idk
+**Implementation:** https://github.com/AtsushiSakai/PythonRobotics/blob/master/Mapping/lidar_to_grid_map/lidar_to_grid_map.py **(NOTE: It supposes lidar as input)**
 
 **Input:** CSV file (robot_data.csv)
 ```
@@ -100,16 +135,15 @@ timestamp, x, y, heading, distance, servo_angle
 
 **Output:** `occupancy_grid.csv` + `visu.py` visualization
 
-**Technology:** C++ sensor fusion with 10cm grid cells.
-
 ---
 
-### **5 FRONTIER EXPLORATION** | 
-**What:** Identifies unexplored edges in occupancy grid and picks next exploration target.
+### **7 FRONTIER EXPLORATION (PYTHON)**
+**What:** Identifies unexplored edges in occupancy grid created and picks next exploration target and commands arduino to go there via SERIAL INTERFACE.
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Uses greedy frontier selection: closest edge with highest information gain.
 
-**Implementation:** idk
+**Implementation:** create a simle algorithm by ourselves.
+
 **Algorithm:**
 1. Find cells touching both explored and unexplored areas
 2. Group nearby frontier cells
@@ -120,34 +154,6 @@ timestamp, x, y, heading, distance, servo_angle
 
 ---
 
-### **6 SLAM LOOP CLOSURE**
-**What:** Detects when robot returns to previously visited area and corrects accumulated position drift.
 
-**Why Important:** Odometry error accumulates over time (~1-2m after 10min exploration). Loop closure fixes this by recognizing revisited locations and recalculating entire trajectory.
 
-**Implementation:** idk
 
-**Input:** Robot trajectory (x,y over time) + occupancy grid snapshots
-
-**Output:** Corrected trajectory with drift removed
-
-**Example:** Robot thinks it's at (5.2, 4.8) but grid matches past scan at (5.0, 5.0) → corrects entire history.
-
----
-
-### **7 SERIAL INTERFACE**
-**What:** Bidirectional Arduino ↔ Windows communication.
-
-**Why Important:** Arduino collects real-time sensor data, Windows performs heavy computation (mapping, SLAM,frontier exploration). Serial bridge enables closed-loop autonomy.
-
-**Implementation:** idk
-
-**Format:** CSV lines (simple, robust, human-readable)
-
-**Example Flow:**
-```
-Arduino → Windows: "0.5,1.2,2.1,0.5,50,45"   (sensor reading)
-Windows → Arduino: "10.5,8.2"                 (frontier goal)
-```
-
----
