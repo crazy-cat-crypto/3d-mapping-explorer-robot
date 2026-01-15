@@ -47,7 +47,7 @@ Total Cost: Rs. 2,876
 
 ## Day 2
 ### Materials bought:
-![bill of parts bought](/random/bill1.jpeg)
+![bill of parts bought](/pictures/bill1.jpeg)
 
 
 ## Materials to buy/manage :
