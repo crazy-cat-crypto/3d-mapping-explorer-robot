@@ -16,7 +16,7 @@ if not os.path.exists("robot_data.csv"):
         writer.writerow(["time","distance"])
 
 
-@app.route("/",methods=["GET"])
+@app.route("/",methods=["POST"])
 def save_robot_data():
     data=request.get_json()
     time_now=datetime.now().strftime("%H:%M:%S")
