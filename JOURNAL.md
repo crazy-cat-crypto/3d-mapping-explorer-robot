@@ -49,6 +49,7 @@ base for robot
 soldering gun with iron
 wheels encoders
 resistors ( 1k ohm, 2k ohm)
+normal wires
 
 Scissors 
 Screw driver
