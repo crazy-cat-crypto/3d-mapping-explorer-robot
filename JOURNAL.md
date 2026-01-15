@@ -1,9 +1,14 @@
 ## Day 1
 ### Materials gathered:
+
 Arduino Uno
+
 Breadboard
+
 2× L298N Motor Driver
+
 2× DC Motors with wheels
+
 Hot glue gun
 
 ### Materials to buy
@@ -47,11 +52,18 @@ Total Cost: Rs. 2,876
 
 ## Materials to buy/manage :
 Servo brackets
+
 base for robot
+
 soldering gun with iron
+
 wheels encoders
+
 resistors ( 1k ohm, 2k ohm)
+
 normal wires
 
+
 Scissors 
+
 Screw driver
