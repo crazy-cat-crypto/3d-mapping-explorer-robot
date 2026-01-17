@@ -47,7 +47,8 @@ Total Cost: Rs. 2,876
 
 ## Day 2
 ### Materials bought:
-![bill of parts bought](/pictures/bill1.jpeg)
+![bill of parts bought](/images/bill1.jpeg)
+we realized arduino was not needed.
 
 
 ## Materials to buy/manage :
@@ -70,8 +71,9 @@ Screw driver
 
 
 ## Day 3
-![bill2 of materials bought](/images/bill2.jpge)
+![bill2 of materials bought](/images/bill2.jpeg)
 we realized that before starting a project you should consult with a expert then only buy parts.
+we bought two new motor with encoders.
 
 ## Day 4
-we joined some parts for robot base.
+we joined some parts for robot base. We cut the spinning rod of new motor such that it could fit in our old motor gear.
