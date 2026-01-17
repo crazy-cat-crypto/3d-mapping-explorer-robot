@@ -67,3 +67,11 @@ normal wires
 Scissors 
 
 Screw driver
+
+
+## Day 3
+![bill2 of materials bought](/images/bill2.jpge)
+we realized that before starting a project you should consult with a expert then only buy parts.
+
+## Day 4
+we joined some parts for robot base.

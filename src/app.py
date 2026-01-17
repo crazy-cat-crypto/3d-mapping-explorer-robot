@@ -4,9 +4,11 @@
 # Gateway: 192.168.4.1
 
 
-import csv,os
+import csv,os,sys
 from datetime import datetime
 from flask import Flask,request
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 app=Flask(__name__)
 
