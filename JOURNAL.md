@@ -77,3 +77,9 @@ we bought two new motor with encoders.
 
 ## Day 4
 we joined some parts for robot base. We cut the spinning rod of new motor such that it could fit in our old motor gear.
+
+## Day 5
+joined wheels and made a little progress on base
+went searcing for wires to connect to encoders and servo brackets but could not find it.
+
+## Day 6 
