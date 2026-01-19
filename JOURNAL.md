@@ -50,6 +50,8 @@ Total Cost: Rs. 2,876
 ![bill of parts bought](/images/bill1.jpeg)
 we realized arduino was not needed.
 
+coded flask server such that it accepts json and converts it to csv
+
 
 ## Materials to buy/manage :
 Servo brackets
@@ -80,6 +82,8 @@ we joined some parts for robot base. We cut the spinning rod of new motor such t
 
 ## Day 5
 joined wheels and made a little progress on base
+
 went searcing for wires to connect to encoders and servo brackets but could not find it.
 
 ## Day 6 
+joined wheels with breadboard then realized we needed a caster weel, then i mistakenly broke the setup that we did in a day.
