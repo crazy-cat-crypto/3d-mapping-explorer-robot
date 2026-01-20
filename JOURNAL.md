@@ -75,7 +75,7 @@ Screw driver
 ## Day 3
 ![bill2 of materials bought](/images/bill2.jpeg)
 we realized that before starting a project you should consult with a expert then only buy parts.
-we bought two new motor with encoders.
+we had to buy two new motor with encoders.
 
 ## Day 4
 we joined some parts for robot base. We cut the spinning rod of new motor such that it could fit in our old motor gear.
@@ -83,7 +83,16 @@ we joined some parts for robot base. We cut the spinning rod of new motor such t
 ## Day 5
 joined wheels and made a little progress on base
 
-went searcing for wires to connect to encoders and servo brackets but could not find it.
+went searching for wires to connect to encoders and servo brackets but could not find it.
 
 ## Day 6 
 joined wheels with breadboard then realized we needed a caster weel, then i mistakenly broke the setup that we did in a day.
+
+## Day 7
+decided to solder wires as we couldnot find encoder wires
+
+Bought all the remaining parts, fixed power supply.
+![bill3 of materials bought](/images/bill3.jpeg)
+![bill4 of materials bought](/images/4.jpeg)
+
+## Day 8
