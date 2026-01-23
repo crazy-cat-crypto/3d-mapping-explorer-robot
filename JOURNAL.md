@@ -99,6 +99,6 @@ Bought all the remaining parts, fixed power supply.
 we had made a blunder by using thick wires to pass 12V with high current, so we had to remake our entire circuit. 
 
 ## Day 9
-A little progress, we joined the vircuit added motor driver and buck converter and made a pan and tilt servo.
+A little progress, we joined the circuit added motor driver and buck converter and made a pan and tilt servo.
 
 ## Day 10
