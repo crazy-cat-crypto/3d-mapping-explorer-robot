@@ -93,7 +93,7 @@ decided to solder wires as we couldnot find encoder wires
 
 Bought all the remaining parts, fixed power supply.
 ![bill3 of materials bought](/images/bill3.jpeg)
-![bill4 of materials bought](/images/4.jpeg)
+![bill4 of materials bought](/images/bill4.jpeg)
 
 ## Day 8
 we had made a blunder by using thick wires to pass 12V with high current, so we had to remake our entire circuit. 
@@ -102,3 +102,8 @@ we had made a blunder by using thick wires to pass 12V with high current, so we 
 A little progress, we joined the circuit added motor driver and buck converter and made a pan and tilt servo.
 
 ## Day 10
+Realized we needed capacitors
+![bill5 of materials bought](/images/bill5.jpeg)
+and we hotglued some parts
+
+## Day 11
