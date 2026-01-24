@@ -15,18 +15,22 @@ app=Flask(__name__)
 if not os.path.exists("robot_data.csv"):
     with open("robot_data.csv",'w',newline="") as f:
         writer=csv.writer(f)
-        writer.writerow(["time","distance"])
+        writer.writerow(["time","obj_x","obj_y","obj_z","mov_x","mov_y"])
 
 
 @app.route("/",methods=["POST"])
 def save_robot_data():
     data=request.get_json()
     time_now=datetime.now().strftime("%H:%M:%S")
-    distance=data["distance"]
+    obj_x=data["obj_x"]
+    obj_y=data["obj_y"]
+    obj_z=data["obj_z"]
+    mov_x=data["mov_x"]
+    mov_y=data["mov_y"]
     
     with open("robot_data.csv","a",newline="") as f:
         writer=csv.writer(f)
-        writer.writerow([time_now,distance])
+        writer.writerow([time_now,obj_x,obj_y,obj_z,mov_x,mov_y])
         
     return 0
 
