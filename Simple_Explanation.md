@@ -5,51 +5,46 @@
 ## **SYSTEM ARCHITECTURE**
 
 ### **Hardware**
-- **Arduino Uno** (real-time control, 100 Hz loop)
-- **2× DC Motors + L298N driver** (propulsion with PWM control)
+- **2× DC Motors with wheels encoders + L298N driver** 
 - **HC-SR04 Ultrasonic Sensor** (distance measurement, 10 Hz)
-- **2× SG90 Servo Motors** (sensor scanning, 180° range)
-- **2× 18650 Batteries** (3.7V, voltage-compensated)
-- **NodeMCU ESP8266** (WiFi)
-- **Windows PC** (map processing, SLAM correction)
+- **2× SG90 Servo Motors with servo brackets** (sensor scanning, 180° range)
+- **3× 18650 Batteries** (3.7V)
+- **NodeMCU ESP8266** (WiFi and microcontroller)
+- **Buck Converter** (To convert 12V to 5V)
+- **Windows PC** (map processing, SLAM correction,frontier algorithm)
 
 ### **Data Flow**
 ```
-ARDUINO (Real-time)              WINDOWS (Processing)
+Microsontroller (Real-time)              WINDOWS (Processing)
 ├─ Read HC-SR04                 ├─ Receive CSV: time,x,y,θ,distance,angle
-├─ Calculate odometry ①          ├─ Build occupancy grid ④
-├─ Sensor geometry ②            ├─ Find frontiers ⑤
-├─ Obstacle avoidance ③         ├─ SLAM correction ⑥
-├─ Format + serialize ⑦         └─ Send waypoint back via serial ⑦
-└─ 100 Hz loop          ↔ WiFi ↔       10 Hz loop
+├─ Calculate odometry           ├─ SLAM correction 
+├─ Sensor geometry              ├─ Build occupancy grid 
+├─ Waypoint algorithm           ├─ Find frontiers
+├─ Format + serialize           └─ Send waypoint back via serial 
+└─  loop               ↔ WiFi ↔        loop
 ```
 
 ---
 
 ## ** ALGORITHMS IMPLEMENTED **
 
-### **1 ODOMETRY + VOLTAGE COMPENSATION (Arduino)**
-**What:** Measures distance traveled using motor PWM timing with automatic battery voltage compensation.
+### **1 ODOMETRY (Microcontroller)**
+**What:** Measures distance traveled using signals from wheels encoders.
 
-**Input:** From arduino takes how many signals for much much time did each wheels get?, whats the battery power at that time?
 
-**Processing:** Calculates (x,y) position of the robot considerating for how much speed and time did each wheels moved considerating the battery power for each case.
+**Processing:** Calculates (x,y) position of the robot considerating for how much speed and time did each wheels moved 
 
 **Output:** To SENSOR GEOMETRY
 
-**Why Important:** As 18650 batteries discharge, motor speed at same PWM decreases. Without compensation, odometry drift accumulates. This algorithm adjusts PWM-to-distance mapping dynamically.
-
-**Implementation:** https://github.com/ArminJo/PWMMotorControl/blob/master/src/CarPWMMotorControl.hpp -> ``setSpeedPWMCompensation()``
-
-**Expected Accuracy:** low without wheels encoders
+**Implementation:** https://github.com/tum-phoenix/drive_ros_localize_wheel_odometry
 
 ---
 
-### **2 SENSOR GEOMETRY (Arduino)**
+### **2 SENSOR GEOMETRY (Microcontroller)**
 
-**What:** Converts HC-SR04 distance + servo angle into 3D robot coordinates using trigonometry.
+**What:** Converts HC-SR04 distance + servo angle into 3D coordinates using trigonometry.
 
-**Input:** From ODOMETRY + Ultrasonic sensor
+**Input:** From ODOMETRY + Ultrasonic sensor + servo angles
 
 **Processing:** Uses trignometry to turn an object postion to (x,y,z)
 
@@ -69,7 +64,7 @@ z = sensor_height            // Vertical component
 
 ---
 
-### **3 OBSTACLE AVOIDANCE AND PATH FINDING (Arduino)**
+### **3 OBSTACLE AVOIDANCE AND PATH FINDING (Microsontroller)**
 **What:** Reactive collision prevention—if distance < 20cm, stop and turn away and while trying to move to a point as specified by frontier exploration algorithm.
 
 **Why Important:** Safety mechanism. Robot doesn't crash and actually explores.
@@ -77,7 +72,7 @@ z = sensor_height            // Vertical component
 **Implementation:** https://www.instructables.com/Arduino-Powered-Autonomous-Vehicle/ **(NOTE: It doesnot create 3D model)**
 
 ---
-### **4 SERIAL INTERFACE (Arduino - Wifi <-> Python - Flask)**
+### **4 SERIAL INTERFACE (Microsontroller - Wifi <-> Python - Flask)**
 
 **What:** Bidirectional Arduino ↔ Windows communication.
 
