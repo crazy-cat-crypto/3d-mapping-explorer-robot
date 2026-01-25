@@ -107,3 +107,13 @@ Realized we needed capacitors
 and we hotglued some parts
 
 ## Day 11
+we soldered some parts and made plan for wheels
+
+## Day 12
+we broke a servo motor by oerspinning it so we had to buy a new one.
+
+also we gave the motor with encoder unexperienced techinican, so we has to again give it to a new technician.
+![bill6 of materials bought](/images/bill6.jpeg)
+![bill7 of materials bought](/images/bill7.jpeg)
+
+## Day 13
