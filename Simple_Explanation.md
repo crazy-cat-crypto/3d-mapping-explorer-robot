@@ -73,7 +73,7 @@ Microsontroller (Real-time)              WINDOWS (Processing)
 
 **Output:** Corrected trajectory with drift removed or if previous position is not detected forwards the File received from COMMUNICATION ALGORITHM to OCCUPANCY GRID MAPPING.
 
-**Note:** A algotithm to change the 3D data as well should be implemented as ekf_slam only takes 2D data and corrects it.
+**Note:** A algotithm to change the 3D data as well should be implemented as slam only takes 2D data and corrects it.
 
 **Example:** Robot thinks it's at (5.2, 4.8) but grid matches past scan at (5.0, 5.0) → corrects entire history.
 
