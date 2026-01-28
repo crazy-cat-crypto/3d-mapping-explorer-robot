@@ -117,3 +117,9 @@ also we gave the motor with encoder unexperienced techinican, so we has to again
 ![bill7 of materials bought](/images/bill7.jpeg)
 
 ## Day 13
+screwed and joined and soldered some parts
+
+## Day 14
+Finally attached servo motors and screwed some wires, made a clear roadmap to program.
+
+## Day 15
