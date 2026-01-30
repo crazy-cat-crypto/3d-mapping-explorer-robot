@@ -123,3 +123,6 @@ screwed and joined and soldered some parts
 Finally attached servo motors and screwed some wires, made a clear roadmap to program.
 
 ## Day 15
+joined the wheels with hotgluegun but they were not striaght.
+
+## Day 16
