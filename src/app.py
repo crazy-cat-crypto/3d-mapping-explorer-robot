@@ -15,7 +15,7 @@ app=Flask(__name__)
 if not os.path.exists("robot_data.csv"):
     with open("robot_data.csv",'w',newline="") as f:
         writer=csv.writer(f)
-        writer.writerow(["time","obj_x","obj_y","obj_z","mov_x","mov_y"])
+        writer.writerow(["time","x","y","Q","distance","pan","tilt"])
 
 
 @app.route("/",methods=["POST"])
