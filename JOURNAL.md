@@ -132,3 +132,7 @@ coded occupancy grind and frontier algorithm
 the soldering on the motor encoders had been broken, we couldnot solder it as pins were too small, also our robot wouldnot move straight, one was faster another slower. neither could it turn back, it would collapse.
 
 ## Day 19
+the robot was still not moving straight and we cncluded the gears had problem.
+
+## Day 20
+ 
