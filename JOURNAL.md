@@ -125,4 +125,10 @@ Finally attached servo motors and screwed some wires, made a clear roadmap to pr
 ## Day 15
 joined the wheels with hotgluegun but they were not striaght.
 
-## Day 16
+## Day 16/17
+coded occupancy grind and frontier algorithm
+
+## Day 18
+the soldering on the motor encoders had been broken, we couldnot solder it as pins were too small, also our robot wouldnot move straight, one was faster another slower. neither could it turn back, it would collapse.
+
+## Day 19

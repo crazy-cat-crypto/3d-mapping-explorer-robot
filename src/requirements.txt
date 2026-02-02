@@ -1,0 +1,5 @@
+pip3 install flask
+pip3 install flask-socketio eventlet
+pip3 install numpy
+pip3 install matplotlib
+pip3 install plotly
