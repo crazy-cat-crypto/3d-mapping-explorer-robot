@@ -17,10 +17,10 @@
 ```
 Microsontroller (Real-time)              WINDOWS (Processing)
 ├─ Read Sensors                 ├─ Receive CSV: time,x,y,θ,distance,pan_angle,tilt_angle
-├─ Calculate odometry           ├─ SLAM correction 
-|                               ├─ Build occupancy grid 
-├─ object-avoidance algorithm   ├─ Find frontiers
-├─ Waypoint algorithm           ├─ Send waypoint back via wifi
+├─ Calculate odometry           ├─ Build occupancy grid
+|                               ├─ Find frontiers 
+├─ object-avoidance algorithm   ├─ Send waypoint back via wifi
+├─ Waypoint algorithm           ├─ SLAM correction
 |                               └─3D visualization 
 └─  loop               ↔ WiFi ↔        loop
 ```
@@ -71,7 +71,7 @@ Microsontroller (Real-time)              WINDOWS (Processing)
 
 **Input:** From File made by COMMUNICATION ALGORITHM
 
-**Output:** Corrected trajectory with drift removed or if previous position is not detected forwards the File received from COMMUNICATION ALGORITHM to OCCUPANCY GRID MAPPING.
+**Output:** Corrected trajectory with drift removed and creates a new file used to 3D plot in plotly.
 
 **Note:** A algotithm to change the 3D data as well should be implemented as slam only takes 2D data and corrects it.
 
@@ -84,7 +84,7 @@ Microsontroller (Real-time)              WINDOWS (Processing)
 ---
 ### **5 OCCUPANCY GRID MAPPING AND FRONTIER ALGORITHM (PYTHON - Numpy, Matplotlib)**
 
-**What:** Converts SLAM corrected file into 2D grid map then uses greedy frontier selection: closest edge with highest information gain.. 
+**What:** Converts communication algorithm generated file into 2D grid map then uses greedy frontier selection: closest edge with highest information gain.. 
 
 **Why Important:** Enables systematic area coverage instead of random wandering. Autonomous target selection without manual intervention.
 
