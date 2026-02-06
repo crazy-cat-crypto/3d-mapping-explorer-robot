@@ -38,7 +38,7 @@ Microsontroller (Real-time)              WINDOWS (Processing)
 
 **Note:** \(\theta \) = absolute direction its facing eg north=0, east=90.
 
-**Implementation:** https://github.com/purwar-lab/DeadReckoning-library , https://github.com/jshaw/NewPingESP8266
+**Implementation:** https://github.com/giomalt/explorino/blob/master/main.ino , https://github.com/jshaw/NewPingESP8266
 
 ---
 

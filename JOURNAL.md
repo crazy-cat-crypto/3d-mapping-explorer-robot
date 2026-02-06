@@ -135,4 +135,19 @@ the soldering on the motor encoders had been broken, we couldnot solder it as pi
 the robot was still not moving straight and we cncluded the gears had problem.
 
 ## Day 20
- 
+we bought gears
+
+## Day 21
+we changed gears but still it was not moving striaght so even we changed the design of the structure
+
+## Day 22
+We soldered a lot of wires which where deattached because we didnot carefully handed the robot .we went to buy wheels but the shop has already been closed
+
+## Day 23
+still the robot was not moving staright so we replaced our thin wheels with thick ones; which we again had to goto buy
+
+## Day 24
+our motor with encoders somehow is sorted, two pins are connected to each other, not one but both. maybe the technician that soldered the wires had applied silicon so the soldering will be strong? So, we had no other option than to use PWN prediction as we didnot had wheels encoders.  
+Also I have no real motivation to continue the journal as now the only remaining part is coding and we have to submit the project in 3 days.
+
+## Day 25
