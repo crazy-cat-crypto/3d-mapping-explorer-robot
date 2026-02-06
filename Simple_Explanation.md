@@ -30,7 +30,7 @@ Microsontroller (Real-time)              WINDOWS (Processing)
 ## ** ALGORITHMS IMPLEMENTED **
 
 ### **1 ODOMETRY AND SENSOR READING(Microcontroller) **
-**What:** Measures distance traveled using signals from wheels encoders and receive distance from ultrasonic sensor and angles from servo motors.
+**What:** Measures distance traveled using PWM with voltage compentation and receive distance from ultrasonic sensor and angles from servo motors.
 
 **Processing:** Calculates (x,y) position of the robot considerating for how much speed and time did each wheels moved.
 
