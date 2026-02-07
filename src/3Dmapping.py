@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 DataBase = pd.read_csv("src/robot_data_optimized.csv")
-SensorHeight = 0
+SensorHeight = 10.5
 
 X_global = []
 Y_global = []
