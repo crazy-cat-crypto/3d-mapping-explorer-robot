@@ -10,6 +10,7 @@ plt.ion()
 fig, ax = plt.subplots(figsize=(8,6))
 
 last_length = 0
+ErrorWeight = 10.0
 
 def detect_loops(Poses, radius = 0.6, MinimumTimeGap = 25):
     xy = Poses[:, 1:3]
@@ -22,7 +23,7 @@ def detect_loops(Poses, radius = 0.6, MinimumTimeGap = 25):
         neighbors = tree.query_ball_point([x,y], r=radius)
 
         for j in neighbors:
-            if j > i and abs(time[i] - time[j] > MinimumTimeGap):
+            if j < i and abs(time[i] - time[j] > MinimumTimeGap):
                 loops.append((j, i))
 
     return loops
@@ -74,12 +75,13 @@ def GraphError(state, edges, Poses):
 while True:
     try:
 
-        ErrorWeight = 10.0
         DataBase = pd.read_csv("src/robot_data.csv")
 
         if len(DataBase) == last_length:
             time.sleep(10)
             continue
+        
+        last_length = len(DataBase)
 
         Poses = DataBase[['time', 'x', 'y', 'theta']].values
         Poses[:, 3] = np.radians(Poses[:, 3])
@@ -125,8 +127,8 @@ while True:
 
         for i, j in loops:
             ax.plot(
-                [Poses[i][1], Poses[j][1]],
-                [Poses[i][2], Poses[j][2]],
+                [optimized[i][0], optimized[j][0]],
+                [optimized[i][1], optimized[j][1]],
                 'b:',
                 alpha=0.5
             )
@@ -139,11 +141,12 @@ while True:
             label='Optimized'
         )
 
+        step = 5
         ax.quiver(
-            optimized[:,0],
-            optimized[:,1],
-            np.cos(optimized[:,2]),
-            np.sin(optimized[:,2]),
+            optimized[::step,0],
+            optimized[::step,1],
+            np.cos(optimized[::step,2]),
+            np.sin(optimized[::step,2]),
             scale=20,
             width=0.003,
             color='black'
