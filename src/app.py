@@ -6,13 +6,13 @@
 # Subnet: 255.255.255.0,24
 # Gateway: 192.168.4.1
 
-import frontier
+from frontier import frontier_exploration
 import csv,os,time
 from flask import Flask,request,jsonify
 import threading
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
+count=0
 app=Flask(__name__)
 
 if not os.path.exists("robot_data.csv"):
@@ -20,12 +20,12 @@ if not os.path.exists("robot_data.csv"):
         writer=csv.writer(file)
         writer.writerow(["time","x","y","Q","dist","pan","tilt"])
 
-target_x=0
-target_y=0
+target_x=25
+target_y=25
 
 def aim():
     global target_x,target_y
-    pass
+    target_x,target_y=frontier_exploration()
 
 @app.route("/display",methods=["POST"])
 def display():
@@ -35,11 +35,14 @@ def display():
 
 @app.route("/data",methods=["POST"])
 def save_robot_data():
+    count+=1
     datas=request.get_json()
     with open("robot_data.csv","a",newline="") as file:
         writer=csv.writer(file)
         for data in datas:
             writer.writerow([time.time(),data.get("x"),data.get("y"),data.get("Q"),data.get("dist"),data.get("pan"),data.get("tilt")])
+    if count % 10 ==0:
+        print("hi")
     task = threading.Thread(target=aim)
     task.daemon = True
     task.start()

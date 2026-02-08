@@ -8,7 +8,14 @@
 // --- WIFI SETTINGS ---
 const char* ssid = "oldtaj_2.5";
 const char* password = "9821976791@sad";
-String server = "http://192.168.1.213:5000";
+String server = "http://192.168.1.94:5000";
+
+
+// --- 3D SCANNING SETTINGS ---
+int tilt_angles[] = {60, 90, 120}; // Down, Straight, Up
+int scan_start_pan = 25;
+int scan_end_pan = 155;
+int pan_step = 20; 
 
 // Motor
 const int IN1 = D5; //  Motor A Forward
@@ -67,14 +74,64 @@ void setup() {
   }
   display("Wifi connected");
   last_time = millis();
-  forward(150);
+  forward(200);
   delay(1000);
   brake();
 }  
 
 void loop() {
-  delay(5000);
-  display("Wifi connected");
+  reconnect();
+
+  // 1. SYNC & SCAN (The "Think" Phase)
+  // Stop everything to get a perfect map and the next target from Python
+  brake();
+  display("Mapping...");
+  scan_and_send(); 
+
+  // 2. AIM (The "Orient" Phase)
+  float dx = target_x - x;
+  float dy = target_y - y;
+  float distance_to_target = sqrt(dx*dx + dy*dy);
+  
+  // Calculate turn
+  float target_theta = atan2(dy, dx) * 57.295; 
+  float turn_needed = target_theta - theta;
+
+  // Shortest path turn logic (-180 to 180)
+  while (turn_needed > 180) turn_needed -= 360;
+  while (turn_needed < -180) turn_needed += 360;
+
+  if (abs(turn_needed) > 10) {
+    display("Aiming...");
+    rotate(turn_needed);
+    delay(100); 
+  }
+
+  // 3. PULSE (The "Move" Phase)
+  // Instead of driving the whole way, we move in 20cm "pulses"
+  // This keeps odometry errors from building up
+  if (distance_to_target > 5) {
+    display("Moving...");
+    
+    unsigned long pulse_start = millis();
+    is_moving = true;
+
+    // Drive for max 1.5 seconds OR until obstacle
+    while (millis() - pulse_start < 1500) {
+      forward(170);
+      
+      // Check for obstacles 10 times a second
+      int obs = sonar.ping_cm();
+      if (obs > 0 && obs < 20) {
+        display("Obstacle!");
+        break; // Exit the pulse immediately
+      }
+      delay(100); 
+    }
+    brake(); // Stop to recalculate everything
+  }
+
+  delay(200); // Short breather for the motors
 }
 
 // --- MOVEMENT FUNCTIONS ---
@@ -88,7 +145,7 @@ void forward(int speed) {
   analogWrite(ENB, speed ); // Apply trim to straight line
 }
 
-void rotate(int degrees) {
+void rotate(float degrees) {
   update_position();
   is_moving=false;
   unsigned long turn_time = abs(degrees) / turn_speed;
@@ -168,4 +225,53 @@ void display(const String &msg){
 
   display_http.POST(body);
   display_http.end();
+}
+
+void reconnect(){
+  if (WiFi.status() != WL_CONNECTED){
+  WiFi.begin(ssid, password);
+  WiFi.setSleepMode(WIFI_NONE_SLEEP);
+  int retry_count = 0;
+  while (WiFi.status() != WL_CONNECTED && retry_count < 10) {
+    delay(100);
+    retry_count++;
+  }
+  }
+}
+
+
+void scan_and_send() {
+  // Use a larger buffer for 3D data points
+  DynamicJsonDocument doc(8192); 
+  JsonArray data = doc.to<JsonArray>();
+
+  // Loop through Tilt angles (Vertical)
+  for (int t = 0; t < 3; t++) {
+    int current_tilt = tilt_angles[t];
+    tilt.write(current_tilt);
+    delay(200); // Wait for tilt servo
+
+    // Loop through Pan angles (Horizontal)
+    for (int p = scan_start_pan; p <= scan_end_pan; p += pan_step) {
+      pan.write(p);
+      delay(150); // Wait for pan servo
+
+      unsigned int distance = sonar.ping_cm();
+      if (distance == 0) distance = max_distance; 
+
+      // Create a data point object
+      JsonObject point = data.createNestedObject();
+      point["x"] = x; 
+      point["y"] = y;
+      point["Q"] = theta;
+      point["dist"] = distance;
+      point["pan"] = p;
+      point["tilt"] = current_tilt;
+    }
+  }
+
+  // Send the 3D data packet
+  String payload;
+  serializeJson(doc, payload);
+  send_n_receive(payload);
 }
