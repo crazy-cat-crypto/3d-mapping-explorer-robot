@@ -3,12 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import least_squares
 from scipy.spatial import KDTree
+import time
+import os
 
+plt.ion()
+fig, ax = plt.subplots(figsize=(8,6))
+
+last_length = 0
 ErrorWeight = 10.0
-DataBase = pd.read_csv("src/robot_data.csv")
-Poses = DataBase[['time', 'x', 'y', 'theta']].values
-
-Poses[:, 3] = np.radians(Poses[:, 3])
 
 def detect_loops(Poses, radius = 0.6, MinimumTimeGap = 25):
     xy = Poses[:, 1:3]
@@ -26,16 +28,6 @@ def detect_loops(Poses, radius = 0.6, MinimumTimeGap = 25):
 
     return loops
 
-loops = detect_loops(Poses)
-print(f"Loops : {loops}")
-
-edges = []
-
-for i in range(1, len(Poses)):
-    edges.append((i-1, i))
-
-
-edges.extend(loops)
 
 def wrap_angle(angle):
     return (angle + np.pi) % (2 * np.pi) - np.pi
@@ -57,7 +49,7 @@ def GraphError(state, edges, Poses):
         cos_mi = np.cos(mi_th)
         sin_mi = np.sin(mi_th)
         dx_m = cos_mi * (mj_x - mi_x) + sin_mi * (mj_y - mi_y)
-        dy_m = -sin_mi * (mj_x - mj_x) + cos_mi * (mj_y - mi_y)
+        dy_m = -sin_mi * (mj_x - mi_x) + cos_mi * (mj_y - mi_y)
         dth_m = wrap_angle(mj_th - mi_th)
 
         # Predicted
@@ -79,64 +71,100 @@ def GraphError(state, edges, Poses):
 
     return np.array(errors)
 
-InitialState = Poses[:, 1:4].flatten()
+
+while True:
+    try:
+
+        DataBase = pd.read_csv("src/robot_data.csv")
+
+        if len(DataBase) == last_length:
+            time.sleep(10)
+            continue
+        
+        last_length = len(DataBase)
+
+        Poses = DataBase[['time', 'x', 'y', 'theta']].values
+        Poses[:, 3] = np.radians(Poses[:, 3])
+
+        loops = detect_loops(Poses)
+        print(f"Loops : {loops}")
+
+        edges = []
+
+        for i in range(1, len(Poses)):
+            edges.append((i-1, i))
 
 
-result = least_squares(
-    GraphError, 
-    InitialState, 
-    args=(edges, Poses),
-    verbose=2
-    )
+        edges.extend(loops)
 
-optimized = result.x.reshape((-1,3))
-
-CopyData = DataBase.copy()
-
-CopyData['x'] = optimized[:, 0]
-CopyData['y'] = optimized[:, 1]
-CopyData['theta'] = np.degrees(optimized[:, 2])
+        InitialState = Poses[:, 1:4].flatten()
 
 
-CopyData.to_csv(
-    "src/robot_data_optimized.csv",
-    index=False
-)
+        result = least_squares(
+            GraphError, 
+            InitialState, 
+            args=(edges, Poses),
+            verbose=2
+        )
 
-plt.figure(figsize=(8, 6))
+        optimized = result.x.reshape((-1,3))
 
-plt.plot(Poses[:,1], Poses[:,2], 'r--', label='Original')
+        CopyData = DataBase.copy()
 
-for i, j in loops:
-    plt.plot(
-        [Poses[i][1], Poses[j][1]],
-        [Poses[i][2], Poses[j][2]],
-        'b:',
-        alpha=0.5
-    )
+        CopyData['x'] = optimized[:, 0]
+        CopyData['y'] = optimized[:, 1]
+        CopyData['theta'] = np.degrees(optimized[:, 2])
 
-plt.plot(
-    optimized[:,0],
-    optimized[:,1],
-    'g',
-    linewidth=2,
-    label='Optimized'
-)
 
-plt.quiver(
-    optimized[:,0],
-    optimized[:,1],
-    np.cos(optimized[:,2]),
-    np.sin(optimized[:,2]),
-    scale=20,
-    width=0.003,
-    color='black'
-)
+        CopyData.to_csv(
+            "src/robot_data_optimized.csv",
+            index=False
+        )
 
-plt.legend()
-plt.axis('equal')
-plt.grid(True)
-plt.title("SLAM with Loop Closure")
-plt.xlabel("X")
-plt.ylabel("Y")
-plt.show()
+        ax.clear()
+        
+        ax.plot(Poses[:,1], Poses[:,2], 'r--', label='Original')
+
+        for i, j in loops:
+            ax.plot(
+                [optimized[i][0], optimized[j][0]],
+                [optimized[i][1], optimized[j][1]],
+                'b:',
+                alpha=0.5
+            )
+
+        ax.plot(
+            optimized[:,0],
+            optimized[:,1],
+            'g',
+            linewidth=2,
+            label='Optimized'
+        )
+
+        step = 5
+        ax.quiver(
+            optimized[::step,0],
+            optimized[::step,1],
+            np.cos(optimized[::step,2]),
+            np.sin(optimized[::step,2]),
+            scale=20,
+            width=0.003,
+            color='black'
+        )
+
+        ax.set_aspect('equal')
+        ax.grid(True)
+        ax.set_title("SLAM with Loop Closure")
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.legend()
+
+        plt.pause(0.01)
+
+        print(f"Updated at length {last_length}")
+
+        time.sleep(10)
+
+    except KeyboardInterrupt:
+        print("Interrupted by User")
+        break
