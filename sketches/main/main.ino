@@ -55,7 +55,7 @@ void setup() {
   pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT); pinMode(ENB, OUTPUT);
   pinMode(tilt_servo_pin, OUTPUT); pinMode(pan_servo_pin, OUTPUT); pinMode(TRIG_PIN, OUTPUT); 
   pinMode(ECHO_PIN, INPUT);
-  pan.attach(pan_servo_pin); tilt.attach(tilt_servo_pin);
+  pan.attach(pan_servo_pin, 550, 2550); tilt.attach(tilt_servo_pin, 500, 2300);
 
   
 

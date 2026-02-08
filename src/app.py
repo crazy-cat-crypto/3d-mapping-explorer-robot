@@ -1,11 +1,13 @@
-# settings setup
+# disable windows firewall
+# set network private
+# control panel setup
 # robot_wifi
-# IP Address: 192.168.4.2
+# IP Address: 192.168.1.213
 # Subnet: 255.255.255.0,24
 # Gateway: 192.168.4.1
 
 import frontier
-import csv,os
+import csv,os,time
 from flask import Flask,request,jsonify
 import threading
 
@@ -37,7 +39,7 @@ def save_robot_data():
     with open("robot_data.csv","a",newline="") as file:
         writer=csv.writer(file)
         for data in datas:
-            writer.writerow([data.get("time"),data.get("x"),data.get("y"),data.get("Q"),data.get("dist"),data.get("pan"),data.get("tilt")])
+            writer.writerow([time.time(),data.get("x"),data.get("y"),data.get("Q"),data.get("dist"),data.get("pan"),data.get("tilt")])
     task = threading.Thread(target=aim)
     task.daemon = True
     task.start()
