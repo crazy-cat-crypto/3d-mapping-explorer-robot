@@ -6,7 +6,7 @@ from scipy.ndimage import binary_dilation
 # -------------------------------
 # Load your robot map
 # -------------------------------
-DataBase = pd.read_csv("src/robot_data_optimized.csv")
+DataBase = pd.read_csv("src/robot_data.csv")
 X_global = DataBase['x'].values
 Y_global = DataBase['y'].values
 
