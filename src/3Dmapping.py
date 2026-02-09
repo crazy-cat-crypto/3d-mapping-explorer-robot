@@ -43,41 +43,50 @@ for index, row in DataBase.iterrows():
 
 fig = go.Figure()
 
+fig.add_trace(go.Mesh3d(
+    x=X_global, 
+    y=Y_global, 
+    z=Z_global,
+    intensity=Z_global,    
+    colorscale='Viridis',   
+    opacity=0.2,
+    showscale=False,        
+    alphahull=5,
+    name="Height-Mapped Surface"
+))
+
+
 fig.add_trace(go.Scatter3d(
-    x = X_global,
-    y = Y_global,
-    z = Z_global,
+    x=X_global,
+    y=Y_global,
+    z=Z_global,
     mode='markers',
     marker=dict(
-        size=2,
+        size=1, 
         color=Z_global,
         colorscale='Viridis',
-        opacity=0.8
+        opacity=1 
     ),
-    name="Map Points"
+    name="Raw Sensor Hits"
 ))
 
 fig.add_trace(go.Scatter3d(
-    x=robot_x,
-    y=robot_y,
-    z=robot_z,
+    x=DataBase["x"],
+    y=DataBase["y"],
+    z=np.zeros(len(DataBase)),
     mode='lines',
-    line=dict(color='red', width=0),
-    name="Robot's Path"
+    line=dict(color='red', width=4),
+    name="Robot Path"
 ))
 
 fig.update_layout(
-    title="3D Environment Map",
     scene=dict(
         xaxis_title="X",
         yaxis_title="Y",
         zaxis_title="Z",
-        aspectmode="manual",
-        aspectratio=dict(x=1, y=1, z=0.5)
+        aspectmode="data"
     ),
-    width=900,
-    height=800
+    title="3D Mapping: Mesh + Point Cloud"
 )
-
 
 fig.show()
