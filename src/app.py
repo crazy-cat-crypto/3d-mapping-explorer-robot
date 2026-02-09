@@ -1,55 +1,53 @@
-# settings setup
+# disable windows firewall
+# set network private
+# control panel setup
 # robot_wifi
-# IP Address: 192.168.4.2
-# Subnet: 255.255.255.0
+# IP Address: 192.168.1.213
+# Subnet: 255.255.255.0,24
 # Gateway: 192.168.4.1
 
-import frontier
-import csv,os
-from flask import Flask
-from flask_socketio import SocketIO,emit
+from frontier import frontier_exploration
+import csv,os,time
+from flask import Flask,request,jsonify
+import threading
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
+count=0
 app=Flask(__name__)
-socketio=SocketIO(app,cors_allowed_origins="*")
 
 if not os.path.exists("robot_data.csv"):
     with open("robot_data.csv",'w',newline="") as file:
         writer=csv.writer(file)
         writer.writerow(["time","x","y","Q","dist","pan","tilt"])
 
+target_x=25
+target_y=25
 
-@socketio.on("connect")
-def connect():
-    print("Robot Connected")
-    
-@socketio.on("disconnect")
-def disconnect():
-    print("Robot disconnected")
+def aim():
+    global target_x,target_y
+    target_x,target_y=frontier_exploration()
 
-@socketio.on("datas")
-def save_robot_data(datas):
-    for data in datas:
-        time=data["time"]
-        x=data["x"]
-        y=data["y"]
-        dist=data["dist"]
-        pan=data["pan"]
-        tilt=data["tilt"]
-        Q=data["Q"]
-        
-        with open("robot_data.csv","a",newline="") as file:
-            writer=csv.writer(file)
-            writer.writerow([time,x,y,Q,dist,pan,tilt])
-            
-        socketio.start_background_task(waypoints)
-        
-    return 0
+@app.route("/display",methods=["POST"])
+def display():
+    print(request.get_json())
+    return "o"
 
-def waypoints():
-    waypoint=select_frontier()
-    socketio.emit("waypoint",waypoint)
+
+@app.route("/data",methods=["POST"])
+def save_robot_data():
+    count+=1
+    datas=request.get_json()
+    with open("robot_data.csv","a",newline="") as file:
+        writer=csv.writer(file)
+        for data in datas:
+            writer.writerow([time.time(),data.get("x"),data.get("y"),data.get("Q"),data.get("dist"),data.get("pan"),data.get("tilt")])
+    if count % 10 ==0:
+        print("hi")
+    task = threading.Thread(target=aim)
+    task.daemon = True
+    task.start()
+    return jsonify({"tx":target_x,"ty":target_y})
+
 
 if __name__=="__main__":
-    socketio.run(app,debug=True,host= "0.0.0.0",port=5000)
+    app.run(debug=True,host= "0.0.0.0",port=5000)

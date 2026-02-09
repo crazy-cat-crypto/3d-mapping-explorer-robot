@@ -1,37 +1,56 @@
+
+import os
 import numpy as np
-from scipy.ndimage import label
+import pandas as pd
+from scipy.ndimage import binary_dilation
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+DataBase = pd.read_csv("robot_data.csv")
+X_global = DataBase['x'].values
+Y_global = DataBase['y'].values
 
-def find_frontiers(grid):
-    frontiers = np.zeros_like(grid)
+robot_pos = (X_global[-1], Y_global[-1])
 
-    for x in range(1, grid.shape[0] - 1):
-        for y in range(1, grid.shape[1] - 1):
-            if grid[x, y] == 0:
-                if -1 in grid[x-1:x+2, y-1:y+2]:
-                    frontiers[x, y] = 1
-    return frontiers
+def frontier_exploration():
+    DataBase = pd.read_csv("src/robot_data_optimized.csv")
+    X_global = DataBase['x'].values
+    Y_global = DataBase['y'].values
+    
+    robot_pos = (X_global[-1], Y_global[-1])
+    
+    grid_res = 0.2
+    
+    X = np.array(X_global)
+    Y = np.array(Y_global)
+    
+    min_x, min_y = X.min(), Y.min()
+    max_x, max_y = X.max(), Y.max()
+    
+    width = int(np.ceil((max_x - min_x) / grid_res)) + 5
+    height = int(np.ceil((max_y - min_y) / grid_res)) + 5
+    
+    grid = np.zeros((height, width), dtype=np.uint8)
+    
+    ix = ((X - min_x) / grid_res).astype(int)
+    iy = ((Y - min_y) / grid_res).astype(int)
+    grid[iy, ix] = 1
+    
+    frontier = grid & binary_dilation(grid == 0)
+    frontier_indices = np.argwhere(frontier)
+    
+    if len(frontier_indices) == 0:
+        return None, None
+    
+    frontier_coords = np.array([
+        (idx[1] * grid_res + min_x, idx[0] * grid_res + min_y)
+        for idx in frontier_indices
+    ])
+    
+    rx, ry = robot_pos
+    dists = np.linalg.norm(frontier_coords - np.array([rx, ry]), axis=1)
+    
+    fx, fy = frontier_coords[np.argmin(dists)]
+    
+    return fx, fy
 
-
-def select_frontier(grid, robot_pos):
-    frontiers = find_frontiers(grid)
-    labeled, num = label(frontiers)
-
-    best_score = -1
-    best_target = None
-
-    for i in range(1, num + 1):
-        cells = np.argwhere(labeled == i)
-        cx, cy = cells.mean(axis=0)
-
-        dx = cx - robot_pos[0]
-        dy = cy - robot_pos[1]
-        dist = np.hypot(dx, dy)
-
-        info_gain = len(cells)
-        score = info_gain / (dist + 1e-3)
-
-        if score > best_score:
-            best_score = score
-            best_target = (cx, cy)
-
-    return best_target
+x, y = frontier_exploration()
+print(x, y)
