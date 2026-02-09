@@ -6,9 +6,9 @@
 
 
 // --- WIFI SETTINGS ---
-const char* ssid = "oldtaj_2.5";
-const char* password = "9821976791@sad";
-String server = "http://192.168.1.94:5000";
+const char* ssid = "SET_Exhibition_2026";
+const char* password = "";
+String server = "http://192.168.11.230:5000";
 
 
 // --- 3D SCANNING SETTINGS ---
