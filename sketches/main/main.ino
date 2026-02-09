@@ -6,9 +6,9 @@
 
 
 // --- WIFI SETTINGS ---
-const char* ssid = "SET_Exhibition_2026";
-const char* password = "";
-String server = "http://192.168.11.230:5000";
+const char* ssid = "iPhone";
+const char* password = "Pratyush7825";
+String server = "http://172.20.10.2:5000";
 
 
 // --- 3D SCANNING SETTINGS ---
@@ -35,7 +35,7 @@ const int max_distance = 200;
 // --- SETTINGS ---
 float move_speed = 0.01275; // How many cm per ms the robot moves
 float turn_speed = 0.06; // How many degrees it turns per ms
-float trim = 0.9; // Arc of slow wheel / Arc of fast wheel ; left wheel is slower.
+float trim = 1; // Arc of slow wheel / Arc of fast wheel ; left wheel is slower.
 bool is_moving=false;
 
 // Odometry
@@ -74,7 +74,7 @@ void setup() {
   }
   display("Wifi connected");
   last_time = millis();
-  forward(200);
+  forward(500);
   delay(1000);
   brake();
 }  
@@ -117,8 +117,8 @@ void loop() {
     is_moving = true;
 
     // Drive for max 1.5 seconds OR until obstacle
-    while (millis() - pulse_start < 1500) {
-      forward(170);
+    while (millis() - pulse_start < 4000) {
+      forward(500);
       
       // Check for obstacles 10 times a second
       int obs = sonar.ping_cm();
@@ -151,7 +151,7 @@ void rotate(float degrees) {
   unsigned long turn_time = abs(degrees) / turn_speed;
   digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW); // Right wheel forward
   digitalWrite(IN3, LOW);  digitalWrite(IN4, HIGH); // Left wheel backward
-  analogWrite(ENA, 180* trim); analogWrite(ENB, 180);
+  analogWrite(ENA, 230* trim); analogWrite(ENB, 230);
   theta += degrees; // Update our angle
   delay(turn_time); 
   brake();
