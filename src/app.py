@@ -35,6 +35,7 @@ def display():
 
 @app.route("/data",methods=["POST"])
 def save_robot_data():
+    global count
     count+=1
     datas=request.get_json()
     with open("robot_data.csv","a",newline="") as file:

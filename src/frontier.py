@@ -11,7 +11,7 @@ Y_global = DataBase['y'].values
 robot_pos = (X_global[-1], Y_global[-1])
 
 def frontier_exploration():
-    DataBase = pd.read_csv("src/robot_data_optimized.csv")
+    DataBase = pd.read_csv("robot_data.csv")
     X_global = DataBase['x'].values
     Y_global = DataBase['y'].values
     
