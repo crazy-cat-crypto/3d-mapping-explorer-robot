@@ -5,8 +5,7 @@
 # IP Address: 192.168.1.213
 # Subnet: 255.255.255.0,24
 # Gateway: 192.168.4.1
-
-from frontier import frontier_exploration
+import random as rand
 import csv,os,time
 from flask import Flask,request,jsonify
 import threading
@@ -43,10 +42,8 @@ def save_robot_data():
         for data in datas:
             writer.writerow([time.time(),data.get("x"),data.get("y"),data.get("Q"),data.get("dist"),data.get("pan"),data.get("tilt")])
     if count % 10 ==0:
-        print("hi")
-    task = threading.Thread(target=aim)
-    task.daemon = True
-    task.start()
+        target_x=rand.randint(0,100)
+        target_y=rand.randint(0,100)
     return jsonify({"tx":target_x,"ty":target_y})
 
 
