@@ -10,7 +10,6 @@ from frontier import frontier_exploration
 import csv,os,time
 from flask import Flask,request,jsonify
 import threading
-import random
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 count=0
@@ -24,6 +23,9 @@ if not os.path.exists("robot_data.csv"):
 target_x=25
 target_y=25
 
+def aim():
+    global target_x,target_y
+    target_x,target_y=frontier_exploration()
 
 @app.route("/display",methods=["POST"])
 def display():
