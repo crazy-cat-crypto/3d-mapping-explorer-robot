@@ -44,14 +44,17 @@ for index, row in DataBase.iterrows():
 fig = go.Figure()
 
 fig.add_trace(go.Mesh3d(
-    x=X_global,
-    y=Y_global,
+    x=X_global, 
+    y=Y_global, 
     z=Z_global,
-    opacity=0.3,      
-    color='cyan',     
-    alphahull=7,       
-    name="Reconstructed Object"
+    intensity=Z_global,    
+    colorscale='Viridis',   
+    opacity=0.2,
+    showscale=False,        
+    alphahull=5,
+    name="Height-Mapped Surface"
 ))
+
 
 fig.add_trace(go.Scatter3d(
     x=X_global,
