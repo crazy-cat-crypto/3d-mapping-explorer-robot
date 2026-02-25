@@ -96,7 +96,7 @@ Bought all the remaining parts, fixed power supply.
 ![bill4 of materials bought](/images/bill4.jpeg)
 
 ## Day 8
-we had made a blunder by using thick wires to pass 12V with high current, so we had to remake our entire circuit. 
+we had made a blunder by using thin wires to pass 12V with high current, so we had to remake our entire circuit. 
 
 ## Day 9
 A little progress, we joined the circuit added motor driver and buck converter and made a pan and tilt servo.
@@ -112,7 +112,7 @@ we soldered some parts and made plan for wheels
 ## Day 12
 we broke a servo motor by oerspinning it so we had to buy a new one.
 
-also we gave the motor with encoder unexperienced techinican, so we has to again give it to a new technician.
+also we gave the motor with encoder to unexperienced techinican, so we has to again give it to a new technician.
 ![bill6 of materials bought](/images/bill6.jpeg)
 ![bill7 of materials bought](/images/bill7.jpeg)
 
