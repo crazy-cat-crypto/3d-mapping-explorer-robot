@@ -1,5 +1,5 @@
 # 3d-mapping-explorer-robot
-## This project was created to participate in our school science exhibition.
+## This project was created for SET exhibition.
 
 ## For detailed algorithms see [Simple_Explanation.md](https://github.com/crazy-cat-crypto/3d-mapping-explorer-robot/blob/main/Simple_Explanation.md)
 ## For journal visit [Journal.md](https://github.com/crazy-cat-crypto/3d-mapping-explorer-robot/blob/main/JOURNAL.md)
