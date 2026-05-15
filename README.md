@@ -12,7 +12,7 @@
 
 
 ## Pictures and Videos
-### Click to open video
+### <a href="https://www.youtube.com/watch?v=HIS3z0AeOt0">Click to open video</a>
 [![Watch the video](https://img.youtube.com/vi/HIS3z0AeOt0/maxresdefault.jpg)](https://www.youtube.com/watch?v=HIS3z0AeOt0)
 
 ![robot picture](images/robot.jpeg)
